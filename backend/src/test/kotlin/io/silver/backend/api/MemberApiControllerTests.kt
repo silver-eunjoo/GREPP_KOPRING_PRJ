@@ -6,6 +6,9 @@ import io.silver.backend.app.MemberService
 import io.silver.backend.dto.Role
 import io.silver.backend.exceptions.MemberNotFoundException
 import io.silver.backend.util.genMemberDesc
+import io.silver.backend.util.genMemberDescList
+import io.silver.backend.util.genMemberList
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -91,6 +94,40 @@ class MemberApiControllerSliceTests {
                 jsonPath("$.message") { value(expectedMsg) }
             }
             .andDo{ print() }
+
+    }
+
+    @Test
+    fun `회원 목록을 요청하면 MemberView로 목록을 반환한다`() {
+
+        val size = 10
+        val memberDescList = genMemberDescList(size)
+        val expectedMsg = "회원 목록을 정상적으로 조회했습니다!"
+
+        `when`(service.getAllDescView()).thenReturn(memberDescList)
+
+        val result = mockMvc.get("/api/members")
+            .andExpect {
+                status { isOk() }
+                content { contentType(MediaType.APPLICATION_JSON)}
+                jsonPath("$.message") { value (expectedMsg) }
+                jsonPath("$.data.size()") { value(size) }
+            }
+            .andDo{ print() }
+            .andReturn()
+
+        val responseStr = result.response.contentAsString // string
+        val responseJson = om.readTree(responseStr) // json
+
+        val responseData = responseJson["data"] // Map 이 들어있는 List 형태
+        for (i in 0 until size) {
+            val expected = memberDescList[i]
+            val actual = responseData[i]
+
+            assertThat(expected.name).isEqualTo(actual["name"].asText())
+            assertThat(expected.email).isEqualTo(actual["email"].asText())
+            assertThat(expected.role.name).isEqualTo(actual["role"].asText())
+        }
 
     }
 }

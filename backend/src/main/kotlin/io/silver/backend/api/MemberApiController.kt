@@ -3,6 +3,7 @@ package io.silver.backend.api
 import io.silver.backend.app.MemberService
 import io.silver.backend.dto.GeneralResponse
 import io.silver.backend.dto.MemberDescription
+import io.silver.backend.dto.MemberView
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 
@@ -11,6 +12,15 @@ import org.springframework.web.bind.annotation.*
 class MemberApiController(
     private val service : MemberService
 ) {
+
+    @GetMapping
+    fun getMemberViews() : GeneralResponse<List<MemberView>> {
+        return GeneralResponse(
+            data = service.getAllDescView(),
+            message = "회원 목록을 정상적으로 조회했습니다!"
+        )
+    }
+
     //CRUD
     @PostMapping
     fun saveMember(@Valid @RequestBody saveRequest: MemberDescription) : GeneralResponse<MemberDescription> {

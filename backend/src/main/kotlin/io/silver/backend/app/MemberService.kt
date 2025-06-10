@@ -4,6 +4,7 @@ import io.silver.backend.dao.MemberRepository
 import io.silver.backend.domain.Member
 import io.silver.backend.dto.MemberDescription
 import io.silver.backend.dto.MemberUpdateDescription
+import io.silver.backend.dto.MemberView
 import io.silver.backend.exceptions.MemberNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -56,5 +57,10 @@ class MemberService(
     fun delete(email: String) {
         val findMember = findByEmail(email)
         repository.delete(findMember)
+    }
+
+    @Transactional(readOnly = true)
+    fun getAllDescView() : List<MemberView> {
+        return repository.findAllMemberView()
     }
 }
