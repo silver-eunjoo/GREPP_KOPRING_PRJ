@@ -32,6 +32,14 @@ dependencies {
 
     runtimeOnly("com.h2database:h2")
 
+    // https://mvnrepository.com/artifact/io.mockk/mockk
+    testImplementation("io.mockk:mockk:1.14.2")
+
+    // https://mvnrepository.com/artifact/io.kotest/kotest-runner-junit5-jvm
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
+    // https://mvnrepository.com/artifact/io.kotest/kotest-assertions-core-jvm
+    testImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

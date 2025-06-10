@@ -10,13 +10,15 @@ import org.junit.jupiter.api.Test
 import org.junit.platform.commons.logging.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
 
 //val logger = LoggerFactory.getLogger(MemberRepositoryTests::class.java) // 자바 로거
 
 private val log = KotlinLogging.logger {}
 
-@DataJpaTest // spring data jpa에 필요한 데이터들만 띄워서 테스트할 수 있다.
+//@DataJpaTest // spring data jpa에 필요한 데이터들만 띄워서 테스트할 수 있다.
+@SpringBootTest
 class MemberRepositoryTests @Autowired constructor(
     var repository: MemberRepository
 ) {

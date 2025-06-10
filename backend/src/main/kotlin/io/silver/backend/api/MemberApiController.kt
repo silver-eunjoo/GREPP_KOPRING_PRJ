@@ -1,0 +1,32 @@
+package io.silver.backend.api
+
+import io.silver.backend.app.MemberService
+import io.silver.backend.dto.GeneralResponse
+import io.silver.backend.dto.MemberDescription
+import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/api/members")
+class MemberApiController(
+    private val service : MemberService
+) {
+    //CRUD
+    @PostMapping
+    fun saveMember(@Valid @RequestBody saveRequest: MemberDescription) : GeneralResponse<MemberDescription> {
+        return GeneralResponse(
+            data = service.save(saveRequest),
+            message = "회원이 성공적으로 등록되었습니다!"
+        )
+    }
+
+    @GetMapping("/{email}")
+    fun getMemberDescByEmail(@PathVariable email: String) : GeneralResponse<MemberDescription> {
+        return GeneralResponse(
+            data = service.getDescByEmail(email),
+            message = "회원을 성공적으로 조회했습니다."
+        )
+
+    }
+
+}
